@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Feliz cumple Hanna</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* CAMBIO CLAVE: INTERFAZ GENERAL ROSA (HotPink, adaptando a la plantilla) */
+    --bg1:#FF69B4; /* Tono de Rosa Fuerte para el gradiente */
+    --bg2:#FF9AD7; /* Tono de Rosa más suave */
+    --text:#4a1942;
+    --muted:rgba(74,25,66,0.55);
+    
+    /* Colores Neón Personalizados */
+    --pure-white: #FFFFFF;
+    --pure-neon-pink: #FF10F0; 
+    /* COLOR ROSA PASTEL SUAVE (para el brillo y el detalle) */
+    --pure-pastel-pink: #FFB6C1; /* Pink Light */
+    /* Fin de colores Neón Personalizados */
+    
+    --shadow-light:rgba(10,10,18,0.08);
+    --shadow-medium:rgba(200,60,120,0.12);
+    --elegant-gold:#c49a6c;
+
+    /* Nuevo color para el fondo del regalo (gris claro) */
+    --gift-bg-light-grey: #e0e0e0; 
+    --gift-border-light-grey: #c0c0c0;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;
+    font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+    background:linear-gradient(135deg,var(--bg1),var(--bg2));
+    color:var(--text);-webkit-font-smoothing:antialiased;overflow:auto}
+  
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;position:relative}
+  .card{width:100%;max-width:880px;background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);border-radius:24px;padding:36px 28px;box-shadow:0 18px 50px var(--shadow-light);position:relative;overflow:hidden;z-index:10}
+  
+  /* ================================================= */
+  /* === EFECTO ESTELAR LO-FI === */
+  /* ================================================= */
+  
+  .estrellas-capa {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+  }
+
+  #fondo-estrellas {
+      z-index: 5; 
+      opacity: 0.6; 
+  }
+  
+  #frente-estrellas {
+      z-index: 15; 
+      opacity: 1; 
+  }
+
+  #particles{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.95}
+
+  /* ================================================= */
+  /* === FIN DE EFECTO ESTELAR === */
+  /* ================================================= */
+  
+  .top-text{position:relative;z-index:2;font-weight:700;color:var(--muted);font-size:20px;text-align:center;margin-bottom:12px}
+  
+  /* Estilo para el texto inicial "Tócame 👻" */
+  .neon{
+    font-size:30px;
+    font-weight:800;
+    color:var(--pure-white); /* Texto BLANCO */
+    padding:8px 16px;
+    border-radius:10px;
+    display:inline-block;
+    background:none; 
+    text-shadow:
+      0 0 5px var(--pure-white),    
+      0 0 10px var(--pure-neon-pink), 
+      0 0 20px var(--pure-neon-pink),
+      0 0 40px var(--pure-neon-pink); 
+    filter:none; 
+    transition:all .3s ease;
+  }
+  
+  @keyframes neonColors {
+    0% {
+      text-shadow: 0 0 5px var(--pure-white), 0 0 15px var(--pure-neon-pink), 0 0 30px #d436ff; 
+    }
+    50% {
+      text-shadow: 0 0 8px var(--pure-white), 0 0 25px var(--pure-neon-pink), 0 0 45px #ff7ac9; 
+    }
+    100% {
+      text-shadow: 0 0 5px var(--pure-white), 0 0 15px var(--pure-neon-pink), 0 0 30px #d436ff;
+    }
+  }
+  .neon.animated{animation:neonColors 4s linear infinite}
+  /* FIN DE ESTILOS NEÓN */
+
+  .center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .kitty-wrap{width:220px;height:220px;border-radius:24px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#fff0f6);box-shadow:0 14px 30px var(--shadow-medium);cursor:pointer;transition:transform .3s ease,box-shadow .3s ease;position:relative;overflow:visible;margin-top:10px}
+  .kitty-wrap:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 20px 45px var(--shadow-medium);}
+  .kitty{width:160px;height:160px;display:block;filter:drop-shadow(0 10px 15px rgba(200,60,120,0.15));}
+  .sparkle{position:absolute;z-index:3;pointer-events:none}
+  .reveal{margin-top:16px;display:none;flex-direction:column;align-items:center;gap:18px;transition:opacity .4s;z-index:2;padding-top:10px;width:100%}
+  .reveal.show{display:flex;animation:fadeIn .6s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .gift-box{width:100%;max-width:560px;border-radius:16px;background:linear-gradient(180deg,#fff,#f5f5f5);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;box-shadow:0 18px 40px rgba(0,0,0,0.1);overflow:hidden;position:relative;min-height:200px}
+  .gift-lid{position:absolute;top:0;left:0;right:0;height:50px;background:linear-gradient(180deg,#111,#333);transform-origin:top center;transition:transform .8s cubic-bezier(.2,.9,.3,1)}
+  .gift-open .gift-lid{transform:rotateX(75deg) translateY(-25px)}
+  .gift-body{padding:25px 20px 18px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  h1.title{font-size:38px;margin:0;color:var(--text);font-weight:700}
+  
+  /* CAMBIO FINAL: Estilo para el texto de los regalos (led) - Blanco con brillo Rosa Pastel */
+  .led {
+    font-family: 'Poppins', system-ui; 
+    font-weight: 700;
+    
+    color: var(--pure-white); /* Texto principal BLANCO */
+    text-shadow:
+      0 0 5px var(--pure-pastel-pink),    /* Sombra cercana en rosa pastel */
+      0 0 10px var(--pure-pastel-pink),   /* Sombra media en rosa pastel */
+      0 0 20px rgba(255, 182, 193, 0.7);  /* Brillo extendido en rosa pastel */
+    
+    background: var(--gift-bg-light-grey); 
+    padding:15px 20px;
+    border-radius:14px;
+    font-size:26px; /* Tamaño más pequeño */
+    white-space:pre-wrap;
+    text-align:center;
+    line-height:1.2;
+    border:1px solid var(--gift-border-light-grey); 
+  }
+  
+  /* El detalle específico sigue siendo Rosa Pastel (y brillando en rosa pastel) */
+  .led .neon-blue-detail {
+      color: var(--pure-pastel-pink); 
+      font-weight: 800;
+      text-shadow: 
+          0 0 5px var(--pure-pastel-pink),  
+          0 0 10px #FFDDEE,               
+          0 0 20px var(--pure-pastel-pink); 
+  }
+  
+  .submsg{margin-top:10px;color:var(--muted);font-size:16px;max-width:720px;text-align:center;font-weight:600}
+  .extra-msg{
+    font-family: 'Sacramento', cursive; 
+    font-size: 32px;
+    color: var(--elegant-gold);
+    margin-top: 20px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px dashed var(--elegant-gold);
+    display: none;
+    line-height: 1.1;
+    text-align: center;
+  }
+  .photos{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:10px;padding-top:10px;border-top:1px solid #eee}
+  
+  /* Estilo para el contenedor del diablo pe (photosInit) - Mostrar debajo de kitty */
+  #photosInit {
+      display: none; 
+      margin-bottom: 20px;
+  }
+  #photosInit img {
+      width: 150px; 
+      height: auto;
+      object-fit: contain;
+  }
+  
+  .photos img{width:110px;height:140px;object-fit:cover;border-radius:10px;box-shadow:0 5px 15px rgba(10,10,20,0.08); transition:transform .3s ease}
+  .photos img:hover{transform:scale(1.05)}
+  .video-wrap{width:100%;max-width:680px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.98);box-shadow:0 8px 25px rgba(10,10,20,0.06);padding:10px;margin-top:15px}
+  .video-wrap iframe{width:100%;height:380px;border:0;border-radius:10px}
+  
+  /* Estilo para la imagen del gato como firma */
+  .cat-image-wrap {
+    display:flex; 
+    justify-content:center;
+    align-items:center;
+    margin-top:15px; 
+    width:100%;
+  }
+  .cat-image-wrap img{
+    max-width:180px; 
+    height:auto;
+    border-radius:10px; 
+    box-shadow:0 5px 15px rgba(0,0,0,0.1); 
+    opacity: 0.9; 
+    filter:grayscale(20%) saturate(150%) hue-rotate(330deg); 
+  }
+
+  .signature{margin-top:15px;text-align:center;font-weight:700;color:var(--text);font-size:18px}
+
+  /* Confetti effect */
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f0f; 
+    opacity: 0;
+    animation: confetti-fall 2s forwards ease-out;
+    border-radius: 50%;
+    filter: blur(0.5px);
+  }
+  .confetti:nth-child(2n){ background-color: #0ff; }
+  .confetti:nth-child(3n){ background-color: #ff0; }
+  .confetti:nth-child(4n){ background-color: #f8f; }
+  @keyframes confetti-fall {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg) scale(0.5); opacity: 0; }
+  }
+  
+  /* Glowing aura for gifts */
+  .gift-box.glowing {
+    box-shadow: 0 0 25px rgba(255, 120, 180, 0.6), 0 0 50px rgba(255, 120, 180, 0.3);
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:15px}
+    .card{padding:25px 15px}
+    .kitty-wrap{width:180px;height:180px}
+    .kitty{width:130px;height:130px}
+    .neon{font-size:26px;padding:6px 14px}
+    .led{
+      font-size:22px; 
+      padding:12px 16px
+    }
+    .submsg{font-size:14px}
+    .extra-msg{font-size:26px;}
+    .video-wrap iframe{height:250px}
+    .photos img{width:100px;height:130px}
+    .cat-image-wrap img{max-width:150px;} 
+  }
+</style>
+</head>
+<body>
+<canvas class="estrellas-capa" id="fondo-estrellas"></canvas>
+
+<div class="wrap">
+  <canvas id="particles"></canvas>
+  <div class="card" role="main">
+    <div class="top-text"><span class="neon animated">¡Tócame! 👻</span></div>
+
+    <div class="center">
+      <div id="entryBox" class="kitty-wrap" role="button" tabindex="0" aria-label="Entrada - Tocar la Hello Kitty para comenzar">
+        <svg class="kitty" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="gk" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#ffeef8"/></linearGradient>
+            <filter id="s" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#ff9acb" flood-opacity="0.18"/></filter>
+          </defs>
+          <g filter="url(#s)">
+            <ellipse cx="100" cy="100" rx="72" ry="70" fill="url(#gk)"/>
+            <path d="M34 66 C18 44, 34 24, 62 44 Z" fill="#fff" stroke="#ffd6ea" stroke-width="2"/>
+            <path d="M166 66 C182 44, 166 24, 138 44 Z" fill="#fff" stroke="#ffd6ea" stroke-width="2"/>
+            <path d="M52 58 C44 50, 52 40, 62 50 Z" fill="#ffd3e8"/>
+            <path d="M148 58 C156 50, 148 40, 138 50 Z" fill="#ffd3e8"/>
+            <ellipse cx="80" cy="98" rx="7" ry="9" fill="#3a1833"/>
+            <ellipse cx="120" cy="98" rx="7" ry="9" fill="#3a1833"/>
+            <ellipse cx="100" cy="118" rx="6" ry="4" fill="#e86aa7"/>
+            <path d="M44 110 L80 110" stroke="#d19fb5" stroke-width="2"/>
+            <path d="M120 110 L156 110" stroke="#d19fb5" stroke-width="2"/>
+            <g transform="translate(130,68)">
+              <ellipse cx="0" cy="0" rx="18" ry="12" fill="#ff7ab6" />
+              <path d="M-18 0 C-26 -6, -26 6, -18 0 Z" fill="#ff9ad7"/>
+              <path d="M18 0 C26 -6, 26 6, 18 0 Z" fill="#ff9ad7"/>
+              <circle cx="0" cy="0" r="6" fill="#fff6fb"/>
+            </g>
+          </g>
+        </svg>
+        <canvas id="sparklesEntry" class="sparkle" width="300" height="300" style="left:50%;top:50%;transform:translate(-50%,-50%);"></canvas>
+      </div>
+      
+      <div id="photosInit" style="display:none;justify-content:center;gap:12px;margin-top:10px;">
+          <img src="https://i.postimg.cc/zfq8DLRW/IMG-20251004-012129-729.jpg" alt="Feliz diablo pe" style="width:150px;height:auto;object-fit:contain;border-radius:10px;box-shadow:0 5px 15px rgba(10,10,20,0.08);">
+      </div>
+
+      <div id="gift2" class="reveal" aria-hidden="true">
+        <div class="gift-box" id="box2" aria-live="polite">
+          <div class="gift-lid"></div>
+          <div class="gift-body">
+            <div class="led" id="text2"></div>
+            <div class="photos" id="photos2" style="display:none">
+                <img src="https://i.postimg.cc/P5WdkbNZ/IMG-20251004-012132-370.jpg" alt="Foto Izquierda">
+                <img src="https://i.postimg.cc/g0Gmcw6D/IMG-20251004-012131-687.jpg" alt="Foto Derecha">
+                <img src="https://i.postimg.cc/ZqJ4Y9yL/IMG-20251003-233233-543.jpg" alt="Firma o Saludo">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="gift3" class="reveal" aria-hidden="true">
+        <div class="gift-box" id="box3" aria-live="polite">
+          <div class="gift-lid"></div>
+          <div class="gift-body">
+            <div class="led" id="text3"></div>
+            <div class="submsg" id="sub3"></div>
+            <div class="extra-msg" id="extraMessage"></div>
+            <div class="video-wrap" id="dogVideo" style="display:none">
+              <div id="player-yt"></div>
+            </div>
+            <div id="catImage" class="cat-image-wrap" style="display:none">
+              <img src="https://i.postimg.cc/sXp4599g/IMG-20251004-215501-424.jpg" alt="Nueva Imagen de Firma">
+            </div>
+            <div class="signature" id="finalSig" style="display:none">— Khidir Karawita (Mario)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<canvas class="estrellas-capa" id="frente-estrellas"></canvas>
+
+
+<script>
+// Elemento nuevo para el Diablo Pe
+const photosInit = document.getElementById('photosInit'); 
+
+// Función de sonido (pling)
+function playPling(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(880, ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.12);
+    g.gain.setValueAtTime(0, ctx.currentTime);
+    g.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
+    o.connect(g); g.connect(ctx.destination);
+    o.start();
+    o.stop(ctx.currentTime + 0.65);
+  }catch(e){ console.log('Audio failed',e) }
+}
+
+// Nuevo sonido para las Hello Kitties
+function playMagicChime(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(1200, ctx.currentTime);
+    g.gain.setValueAtTime(0, ctx.currentTime);
+    g.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+    o.connect(g); g.connect(ctx.destination);
+    o.start();
+    o.stop(ctx.currentTime + 0.55);
+  }catch(e){ console.log('Magic chime audio failed',e) }
+}
+</script>
+
+<script>
+// =================================================================
+// === MODIFICACIÓN CLAVE: Lluvia de Estrellas/Partículas Lo-Fi ===
+// =================================================================
+
+// Partículas de fondo (el canvas original #particles)
+const c = document.getElementById('particles');
+const ctx = c.getContext('2d');
+let W,H,parts=[];
+function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+function rand(a,b){return Math.random()*(b-a)+a}
+function init(){
+  parts=[];
+  for(let i=0;i<140;i++){
+    parts.push({
+      x:rand(0,W),
+      y:rand(0,H),
+      r:rand(0.6,2.8), 
+      vx:rand(-0.2,0.2),
+      vy:rand(0.2, 0.8), 
+      a:rand(0.2,0.7) 
+    });
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(let p of parts){
+    ctx.beginPath();
+    ctx.fillStyle='rgba(255, 16, 240, '+p.a+')'; 
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+    p.x+=p.vx;
+    p.y+=p.vy;
+    if(p.y>H+10){
+      p.y=-10;
+      p.x=rand(0,W)
+    }
+  }
+  requestAnimationFrame(draw)
+}
+
+resize();
+init();
+draw();
+window.addEventListener('resize',()=>{resize();init()});
+
+// ---------------------------------------------
+// Función general para las capas de estrellas (fondo y frente)
+// ---------------------------------------------
+
+function initStarLayer(canvasId, count, minR, maxR, minVY, maxVY, color){
+  const canvas = document.getElementById(canvasId);
+  const context = canvas.getContext('2d');
+  let W, H;
+  let stars = [];
+
+  function resizeLayer(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initStars(){
+    stars = [];
+    for(let i=0; i<count; i++){
+      stars.push({
+        x: rand(0, W),
+        y: rand(0, H),
+        r: rand(minR, maxR),
+        vx: rand(-0.1, 0.1),
+        vy: rand(minVY, maxVY),
+        a: rand(0.5, 1)
+      });
+    }
+  }
+
+  function drawStars(){
+    context.clearRect(0, 0, W, H);
+    for(let s of stars){
+      context.beginPath();
+      context.fillStyle = `${color.replace('A)', s.a + ')')}`; 
+      context.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      context.fill();
+      
+      s.x += s.vx;
+      s.y += s.vy;
+      
+      if(s.y > H + 10){
+        s.y = -10;
+        s.x = rand(0, W);
+      }
+    }
+    requestAnimationFrame(drawStars);
+  }
+
+  resizeLayer();
+  initStars();
+  drawStars();
+  window.addEventListener('resize', ()=>{ resizeLayer(); initStars(); });
+}
+
+// Inicializar capa de estrellas de FONDO (más pequeñas, color tenue)
+initStarLayer('fondo-estrellas', 80, 0.8, 1.8, 0.1, 0.4, 'rgba(255, 255, 255, A)');
+
+// Inicializar capa de estrellas de FRENTE (más grandes, color brillante)
+initStarLayer('frente-estrellas', 50, 1.5, 3.5, 0.6, 1.2, 'rgba(255, 16, 240, A)');
+
+
+// =================================================================
+// === FIN DE MODIFICACIÓN CLAVE ===
+// =================================================================
+
+// sparkles for entry
+const sparkCan = document.getElementById('sparklesEntry');
+const sctx = sparkCan.getContext('2d');
+function resizeSpark(){sparkCan.width=300;sparkCan.height=300}
+resizeSpark();
+function emitSparklesAt(x,y,canvasCtx){
+  const sparks=[];
+  for(let i=0;i<40;i++){sparks.push({x:x,y:y,dx:rand(-4.2,4.2),dy:rand(-8,-2),r:rand(1,3.5),a:1})}
+  let t=0;
+  function frame(){
+    canvasCtx.clearRect(0,0,sparkCan.width,sparkCan.height);
+    for(let p of sparks){p.x+=p.dx;p.y+=p.dy;p.dy+=0.18;p.a-=0.02; canvasCtx.beginPath(); canvasCtx.fillStyle = 'rgba(255,255,255,'+p.a+')'; canvasCtx.arc(p.x,p.y,p.r,0,Math.PI*2); canvasCtx.fill()}
+    t++; if(t<90) requestAnimationFrame(frame); else canvasCtx.clearRect(0,0,sparkCan.width,sparkCan.height);
+  }
+  frame();
+}
+
+// typing effect
+function typeText(el, text, speed=30, cb){
+  el.textContent = '';
+  let i=0;
+  function step(){
+    if(i<text.length){ el.textContent += text.charAt(i); i++; setTimeout(step, speed); }
+    else if(cb) cb();
+  }
+  step();
+}
+
+// CONFETTI EFFECT
+function launchConfetti(count = 50, targetElement) {
+  const container = targetElement || document.body;
+  for (let i = 0; i < count; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.top = Math.random() * -10 + 'vh'; // Start above viewport
+    confetti.style.animationDelay = Math.random() * 1 + 's';
+    confetti.style.animationDuration = (Math.random() * 2 + 3) + 's'; // Slower fall
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`; // Random colors
+    container.appendChild(confetti);
+
+    // Remove after animation to prevent DOM clutter
+    confetti.addEventListener('animationend', () => confetti.remove());
+  }
+}
+
+// sequence control
+const entryBox = document.getElementById('entryBox');
+const gift2 = document.getElementById('gift2');
+const gift3 = document.getElementById('gift3');
+const box2 = document.getElementById('box2');
+const box3 = document.getElementById('box3');
+const text2 = document.getElementById('text2');
+const photos2 = document.getElementById('photos2');
+const text3 = document.getElementById('text3');
+const sub3 = document.getElementById('sub3');
+const extraMessage = document.getElementById('extraMessage');
+const dogVideoWrap = document.getElementById('dogVideo');
+const catImage = document.getElementById('catImage');
+const finalSig = document.getElementById('finalSig');
+
+let stepIndex = 0;
+
+function openEntry(e){
+  if(stepIndex!==0) return;
+  stepIndex = 1;
+  
+  // 1. ANUNCIO INICIAL Y SONIDO
+  playPling();
+  emitSparklesAt(150,70,sctx);
+  
+  // Mostrar la imagen de Feliz Diablo Pe justo debajo del Kitty principal
+  photosInit.style.display='flex';
+  
+  // 2. MOSTRAR Y ABRIR REGALO 1 (GIFT2)
+  setTimeout(()=>{ 
+    gift2.classList.add('show'); 
+    gift2.style.display='flex'; 
+    box2.classList.add('gift-open', 'glowing'); 
+    playPling(); 
+    launchConfetti(30, box2); 
+  }, 700);
+  
+  /* Texto con la nueva fuente y azul neón en el detalle */
+  const msg1 = "¡Feliz Cumpleaños Hanna! 🎁🎉\nQue este nuevo ciclo de vida te traiga toda la alegría del mundo.\nEsto lo hice con esfuerzo y dedicación, (<span class='neon-blue-detail'>así demostramos afecto los devs :v :v :v :v</span>)\nPásala genial hoy y que se cumplan tus deseos. 💖";
+  
+  // 3. ESCRIBIR MENSAJE 1 Y MOSTRAR FOTOS DE KITTY (Solo las 3 restantes: 2 Kitties y Saludo)
+  setTimeout(()=>{ 
+    typeTextHTML(text2, msg1, 28, ()=>{ 
+        photos2.style.display='flex'; 
+        playMagicChime(); 
+        
+        setTimeout(()=>{ 
+          // Ocultar la foto del Diablo Pe antes de cerrar la caja de regalo
+          photosInit.style.display='none';
+          box2.classList.remove('gift-open', 'glowing'); 
+          gift2.classList.remove('show'); 
+          playPling(); 
+          
+          setTimeout(()=>{ 
+            gift2.style.display='none'; 
+            gift3.classList.add('show'); 
+            gift3.style.display='flex'; 
+            box3.classList.add('gift-open', 'glowing'); 
+            playPling(); 
+            launchConfetti(40, box3); 
+            
+            /* Texto con la nueva fuente y azul neón en el detalle */
+            const msg3 = "Que cada pequeño momento de este día te haga sonreír,\nporque las personas con buen corazón merecen días hermosos. <span class='neon-blue-detail'>🎁</span>";
+            const sub = "¡Tienes un alma preciosa y brillante, nunca lo olvides!";
+            
+            typeTextHTML(text3, msg3, 28, ()=>{ 
+              sub3.textContent = ""; 
+              typeText(sub3, sub, 20, ()=>{
+                dogVideoWrap.style.display='block';
+                loadYouTubePlayer();
+              }); 
+            });
+          }, 700);
+        }, 5000); 
+    }); 
+  }, 1200);
+}
+
+entryBox.addEventListener('click', openEntry);
+entryBox.addEventListener('keypress',(e)=>{ if(e.key==='Enter' || e.key===' ') openEntry(); });
+
+// NUEVA FUNCIÓN para typeText que acepta HTML/SPANs
+function typeTextHTML(el, htmlText, speed=30, cb){
+  el.innerHTML = '';
+  let i=0;
+  
+  function typeTextSimple(){
+      if (i < htmlText.length) {
+          const char = htmlText.charAt(i);
+          if (char === '<') { 
+              const tagEnd = htmlText.indexOf('>', i);
+              if (tagEnd !== -1) {
+                  const tag = htmlText.substring(i, tagEnd + 1);
+                  el.innerHTML += tag.replace(/\n/g, '<br/>');
+                  i = tagEnd + 1;
+              } else {
+                  el.innerHTML += char.replace(/\n/g, '<br/>');
+                  i++;
+              }
+          } else { 
+              el.innerHTML += char.replace(/\n/g, '<br/>');
+              i++;
+          }
+          setTimeout(typeTextSimple, speed);
+      } else if (cb) {
+          cb();
+      }
+  }
+  
+  typeTextSimple();
+}
+
+// YouTube API for dog video
+let ytPlayer;
+function loadYouTubePlayer(){
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api"; // URL CORREGIDA DE YOUTUBE API
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  
+  window.onYouTubeIframeAPIReady = function(){ window.ytReady = true; initPlayer(); }
+}
+function initPlayer(){
+  ytPlayer = new YT.Player('player-yt', {
+    height: '360',
+    width: '640',
+    videoId: 'zRJExOM0p3s',
+    playerVars: { 'rel':0, 'playsinline':1 },
+    events: {
+      'onReady': function(e){ e.target.playVideo(); },
+      'onStateChange': function(ev){
+        if(ev.data==YT.PlayerState.ENDED){
+          playPling();
+          box3.classList.remove('glowing'); 
+          dogVideoWrap.style.display='none';
+          catImage.style.display='block'; /* Mostrar la imagen del gato como firma */
+          
+          const finalMsg = "Y un último secreto:\n¡Eres la persona más increíble que conozco!";
+          extraMessage.style.display = 'block';
+          typeText(extraMessage, finalMsg, 35, ()=>{
+            finalSig.style.display='block';
+            launchConfetti(50, document.body); 
+          });
+        }
+      }
+    }
+  });
+}
+
+// accessibility: stop players when leaving
+window.addEventListener('pagehide', ()=>{ try{ if(ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo(); }catch(e){} });
+
+</script>
+</body>
+</html>
